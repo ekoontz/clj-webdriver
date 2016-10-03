@@ -1,4 +1,4 @@
-(defproject clj-webdriver "0.7.2-SNAPSHOT"
+(defproject clj-webdriver "0.7.2-ekoontz"
   :description "Clojure API for Selenium-WebDriver"
   :url "https://github.com/semperos/clj-webdriver"
   :license {:name "Eclipse Public License"
@@ -11,6 +11,11 @@
                  [org.mortbay.jetty/jetty "6.1.25"]]
   :deploy-repositories [["releases" :clojars]]
   :jar-exclusions [#".*\.html" #"^public/"]
+
+  :repositories {"s3" {:url "s3p://ekoontz-repo/releases/"
+                       :username :env/aws_access_key ;; gets environment variable AWS_ACCESS_KEY
+                       :passphrase :env/aws_secret_key}} ;; gets environment variable AWS_SECRET_KEY
+
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.7.0"]
                                   [org.clojure/tools.reader "0.10.0-alpha3"]
                                   [org.slf4j/slf4j-log4j12 "1.7.5"]
@@ -27,7 +32,8 @@
                                    :exclusions [org.seleniumhq.selenium/selenium-java
                                                 org.seleniumhq.selenium/selenium-server
                                                 org.seleniumhq.selenium/selenium-remote-driver]]]
-                   :plugins [[codox "0.8.13"]]
+                   :plugins [[codox "0.8.13"]
+                             [s3-wagon-private "1.2.0"]]
                    :aliases {"api-docs" ["doc"]}
                    :codox {:output-dir "api-docs"
                            :src-dir-uri "https://github.com/semperos/clj-webdriver/blob/master/"
